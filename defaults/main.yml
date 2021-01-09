@@ -2,7 +2,7 @@
 # defaults freebsd-php
 
 bsd_php_debug: false
-bsd_php_backup_conf: false
+bsd_php_conf_backup: false
 
 # service php-fpm
 bsd_phpfpm_enable: false

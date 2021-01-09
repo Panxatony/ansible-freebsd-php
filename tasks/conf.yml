@@ -23,7 +23,7 @@
     dest: "{{ bsd_php_conf_file }}"
     regexp: '^\s*{{ item.key }}\s*=(.*)$'
     line: "{{ item.key }}={{ item.val }}"
-    backup: "{{ bsd_php_backup_conf }}"
+    backup: "{{ bsd_php_conf_backup }}"
   loop: "{{ bsd_php_conf }}"
   notify: reload php-fpm
 
@@ -37,7 +37,7 @@
     dest: "{{ bsd_php_conf_file }}"
     regexp: '^\s*PHP_VERSION\s*=(.*)$'
     line: "PHP_VERSION={{ my_php_version.stdout }}"
-    backup: "{{ bsd_php_backup_conf }}"
+    backup: "{{ bsd_php_conf_backup }}"
   notify: reload php-fpm
   when: my_php_version.stdout is defined
 
@@ -48,7 +48,7 @@
     dest: "{{ bsd_php_conf_fpm_file }}"
     regexp: '^\s*{{ item.key }}\s*=(.*)$'
     line: "{{ item.key }} = {{ item.val }}"
-    backup: "{{ bsd_php_backup_conf }}"
+    backup: "{{ bsd_php_conf_backup }}"
   loop: "{{ bsd_php_conf_fpm }}"
   notify: reload php-fpm
 
@@ -59,7 +59,7 @@
     dest: "{{ bsd_php_conf_ini_file }}"
     regexp: '^\s*{{ item.key }}\s*=(.*)$'
     line: "{{ item.key }} = {{ item.val }}"
-    backup: "{{ bsd_php_backup_conf }}"
+    backup: "{{ bsd_php_conf_backup }}"
   loop: "{{ bsd_php_conf_ini }}"
   notify: reload php-fpm
 
@@ -70,7 +70,7 @@
     dest: "{{ bsd_php_conf_path }}/php/{{ item.0.file }}"
     regexp: '^\s*{{ item.1.key }}\s*='
     line: "{{ item.1.key }} = {{ item.1.val }}"
-    backup: "{{ bsd_php_backup_conf }}"
+    backup: "{{ bsd_php_conf_backup }}"
   loop: "{{ lookup('subelements', bsd_php_conf_phpd, 'conf') }}"
   notify: reload php-fpm
 
@@ -81,8 +81,8 @@
     dest: "{{ bsd_php_conf_path }}/php-fpm.d/{{ item.0.file }}"
     regexp: '^\s*{{ item.1.key }}\s*=(.*)$'
     line: "{{ item.1.key }} = {{ item.1.val }}"
-    backup: "{{ bsd_php_backup_conf }}"
-  loop: "{{ lookup('subelements', bsd_php_conf_fpmd, 'conf') }}"
+    backup: "{{ bsd_php_conf_backup }}"
+  loop: "{{ lookup('subelements', bsd_php_conf_fpmd, 'conf', wantlist=True ) }}"
   notify: reload php-fpm
 
 # EOF

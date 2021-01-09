@@ -24,7 +24,7 @@
     dest: /etc/rc.conf
     regexp: '^\s*{{ item.key }}\s*=(.*)$'
     line: '{{ item.key }}="{{ item.val }}"'
-    backup: "{{ bsd_php_backup_conf }}"
+    backup: "{{ bsd_php_conf_backup }}"
   loop: "{{ bsd_php_rcconf }}"
   notify: reload php-fpm
 
